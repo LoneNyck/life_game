@@ -13,7 +13,7 @@ clock = pygame.Clock()
 
 class Cell():
     def __init__(self, col: int, row: int) -> None:
-        """ una cellula, caratterizzata dalle dimensioni e coordinate. il parametro alive è impostato randomicamente """
+        """ a standard cell. the imput requirest the column and the row of a matrix. the alive parameter is radomically set """
         self.width, self. height = 10, 10
         self.col, self.row = col, row
         self.x, self.y = 200 + self.col * self.width, 200 + self.row * self.height
@@ -25,11 +25,11 @@ class Cell():
         self.neighbors: int
 
     def update_color(self):
-        """ associa il colore della cellula al proprio stato """
+        """ aassociate a color to the state of the cell """
         self.color = 'yellow' if self.alive else 'black'
 
     def update_state(self):
-        """ aggiorna lo stato della cellula in base al numero di vicini che essa ha """
+        """ update the cell status according to the number of neigbors it has """
         if self.alive and (self.neighbors < 2 or self.neighbors > 3):
             self.alive = False
         elif not self.alive and self.neighbors == 3:
@@ -37,13 +37,15 @@ class Cell():
         self.update_color()
     
     def kill(self):
+        ''' a function to kill a cell '''
         self.alive = False
     
     def create(self):
+        ''' a function to create a cell '''
         self.alive = True
 
     def get_neighbors(self, cells: list):
-        """ ottiene il numero di vicini che la cellula ha """
+        """ get the number of neigbors of a cell """
         self.neighbors = 0
         # Iteriamo sui vicini (-1, 0, 1) sia per la riga che per la colonna
         for i in range(-1, 2):
@@ -60,13 +62,14 @@ class Cell():
                         self.neighbors += 1
 
     def draw(self):
-        """ disegna la cellula """
+        """ draws the cell """
         pygame.draw.rect(win, self.color, self.rect)
 
 n = 40
 cells = [[Cell(col, row) for col in range(n)] for row in range(n)]
 
 def draw_your_patter(run:bool):
+    ''' allow the user to select which cells to make alive. requires a boolean paramter '''
     if run:
         for row in cells:
                 for cell in row:
@@ -101,7 +104,7 @@ def draw_your_patter(run:bool):
         pygame.display.update()
 
 def game_loop():
-    """ il loop principale del gioco """
+    """ the main game loop """
     gen = 0
     save = True
     while True:
